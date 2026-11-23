@@ -1,0 +1,16 @@
+/* Hiding the card rather than removing it preserves YouTube's virtual list bookkeeping. */
+[data-ytfocus-hidden="true"] { display: none !important; }
+[data-ytfocus-hidden] { position: relative; }
+[data-ytfocus-control] { position:absolute;right:8px;top:8px;z-index:30;border:1px solid #54704f;border-radius:8px;background:#17251fee;color:#d8f6cc;padding:7px 9px;font:12px system-ui,sans-serif;cursor:pointer;opacity:0;transition:opacity .15s; }
+[data-ytfocus-hidden]:hover > [data-ytfocus-control], [data-ytfocus-control]:focus-visible { opacity:1; }
+html[data-ytfocus-shorts="true"] ytd-reel-shelf-renderer,
+html[data-ytfocus-shorts="true"] ytd-rich-shelf-renderer[is-shorts],
+html[data-ytfocus-shorts="true"] ytd-guide-entry-renderer:has(a[href="/shorts"]),
+html[data-ytfocus-shorts="true"] ytd-mini-guide-entry-renderer:has(a[href="/shorts"]) { display: none !important; }
+/* End screens contain a separate set of unclassified video links. */
+html[data-ytfocus-enabled="true"] .ytp-endscreen-content,
+html[data-ytfocus-enabled="true"] .ytp-ce-element,
+html[data-ytfocus-enabled="true"] .ytp-suggestion-set,
+html[data-ytfocus-enabled="true"] .ytp-autonav-endscreen-upnext-container { display: none !important; }
+html[data-ytfocus-gated="true"] #movie_player video,
+html[data-ytfocus-gated="true"] ytd-reel-video-renderer video { visibility: hidden !important; }

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ru">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>YouTube Focus</title><link rel="stylesheet" href="popup.css"></head>
+<body>
+  <header><div class="brand"><img src="icons/48.png" width="34" height="34" alt=""><div><h1>YouTube Focus</h1><p>Музыка. Знания. Больше ничего.</p></div></div><label class="switch" title="Включить фильтр"><input id="enabled" type="checkbox" aria-label="Включить фильтр"><span></span></label></header>
+  <main>
+    <section class="summary"><div><span class="eyebrow">НА ЭТОЙ СТРАНИЦЕ</span><strong id="hiddenCount">—</strong><span id="statLabel">скрыто карточек</span></div><div class="signal" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><p id="pageStatus">Подключаюсь к вкладке…</p></section>
+    <nav aria-label="Разделы настроек"><button type="button" data-tab="filter" aria-pressed="true">Фильтр</button><button type="button" data-tab="channels" aria-pressed="false">Каналы</button><button type="button" data-tab="words" aria-pressed="false">Свои слова</button></nav>
+    <section id="filter" class="tab">
+      <h2>Что оставляем</h2><div class="chips"><span>♫ Музыка и все Джемы</span><span>↗ Обучение по любым темам</span></div>
+      <h2>Неопознанные видео</h2><div class="segmented"><label><input type="radio" name="strict" value="true"><span>Скрывать</span></label><label><input type="radio" name="strict" value="false"><span>Оставлять</span></label></div><p class="hint" id="modeHint"></p>
+      <label class="setting"><span><b>Убирать Shorts</b><small>В том числе музыкальные и учебные</small></span><input id="hideShorts" type="checkbox"></label>
+      <label class="setting"><span><b>Проверять открытый ролик</b><small>Ставить на паузу и показывать причину</small></span><input id="guardWatch" type="checkbox"></label>
+      <div class="note">Языки, науки, творчество, ремонт, кулинария, спорт и другие темы. Джемы YouTube всегда остаются. Фильтр читает название и канал; ошибку можно исправить в списке скрытого.</div>
+    </section>
+    <section id="channels" class="tab" hidden>
+      <h2>Правила для каналов</h2><p class="hint">Разрешённый канал проходит целиком. Скрытый — убирается целиком. Настройка Shorts действует первой.</p>
+      <div id="currentChannel" class="current" hidden><span id="currentChannelName"></span><div class="row"><button type="button" id="allowCurrent">Разрешить</button><button type="button" id="blockCurrent" class="muted">Скрыть</button></div></div>
+      <form id="channelForm"><label for="channelInput">Название, @handle или ссылка на канал</label><input id="channelInput" type="text" maxlength="200" placeholder="Например, @3blue1brown" required autocomplete="off"><div class="row"><button type="submit" name="rule" value="allow">Разрешить канал</button><button type="submit" name="rule" value="block" class="muted">Скрыть канал</button></div></form>
+      <h3>Разрешённые <span id="allowCount"></span></h3><ul id="allowChannels" class="rules"></ul><h3>Скрытые <span id="blockCount"></span></h3><ul id="blockChannels" class="rules"></ul>
+    </section>
+    <section id="words" class="tab" hidden>
+      <h2>Точные слова и фразы</h2><p class="hint">По одному правилу на строку. Проверяются в названии без учёта регистра. Скрывающее правило важнее разрешающего; правила канала важнее слов.</p>
+      <form id="wordsForm"><label for="allowWords">Всегда оставлять</label><textarea id="allowWords" rows="3" maxlength="20000" placeholder="сольфеджио&#10;machine learning"></textarea><label for="blockWords">Всегда скрывать</label><textarea id="blockWords" rows="3" maxlength="20000" placeholder="распаковка&#10;нарезка стрима"></textarea><button type="submit">Сохранить слова</button></form>
+      <h3>Проверить название</h3><input id="previewTitle" type="text" maxlength="300" placeholder="Вставь название видео"><p id="previewResult" class="preview" aria-live="polite">Результат появится здесь.</p>
+    </section>
+    <details><summary>Резервная копия настроек</summary><div class="row backup"><button type="button" id="export" class="muted">Скачать JSON</button><label class="fileButton">Восстановить<input id="import" type="file" accept="application/json,.json"></label></div></details>
+  </main>
+  <footer><span>Локально · без ключей и подписки</span><a href="https://www.youtube.com/" target="_blank" rel="noopener">Открыть YouTube ↗</a></footer>
+  <div id="message" role="status" aria-live="polite" hidden></div>
+  <script src="classifier.js"></script><script src="settings.js"></script><script src="popup.js"></script>
+</body></html>
