@@ -1,36 +1,41 @@
 # YouTube Focus
 
-Локальное расширение для браузеров на базе Chromium (Brave, Chrome, Edge) на **Manifest V3**, которое очищает ленту YouTube от развлекательного контента, оставляя только **музыку** (включая «Джемы» / Mix) и **обучающие видео**.
+A local Manifest V3 extension for Chromium browsers (Brave, Chrome, Edge) that hides entertainment on YouTube and keeps only music and educational videos.
 
-Работает полностью локально: без внешних серверов, нейросетей, API-ключей, аналитики и этапов сборки.
+No external servers, API keys, analytics, dependencies, or build steps. Everything runs locally in your browser.
 
-## Возможности
+## What it does
 
-- **Умная фильтрация по названиям и каналам:** распознаёт музыку (треки, концерты, каверы, OST, фоновые звуки) и учебные темы (языки, программирование, науки, ремонт, кулинария, спорт, творчество) на русском и английском языках.
-- **Строгий и мягкий режимы:** в строгом режиме скрываются все неопознанные видео; в мягком — только явные развлечения (летсплеи, реакции, влоги, шоу, пранки).
-- **Блокировка Shorts и конечных заставок:** убирает полки Shorts из ленты и меню, а также скрывает непроверенные рекомендации поверх конца ролика.
-- **Защита при прямом открытии:** автоматически ставит неподходящий ролик на паузу и объясняет причину блокировки.
-- **Виджет прямо на странице:** кнопка `Focus · N скрыто` в правом нижнем углу позволяет посмотреть скрытые карточки, разово открыть ролик или добавить канал в исключения.
-- **Гибкие правила и бэкап:** белые и чёрные списки каналов (`@handle`, ссылка или название), стоп-слова и разрешённые фразы, проверка любого заголовка в окне расширения и экспорт/импорт настроек в JSON.
+- **Filters feeds by title and channel:** Keeps music (songs, concerts, covers, OSTs, ambient sounds, YouTube Mixes) and educational content (programming, languages, science, DIY/repairs, cooking, sports, crafts) using Russian and English rules.
+- **Strict & relaxed modes:** Strict mode (default) hides anything it can't positively identify as music or educational. Relaxed mode only hides obvious entertainment like let's plays, reactions, vlogs, pranks, and shows.
+- **Removes Shorts & end screens:** Hides Shorts shelves and navigation links (including music/educational Shorts), plus end-screen recommendation overlays.
+- **Guards the video player:** If you open a non-matching video directly, it pauses playback and shows why it was blocked.
+- **On-page controls:** Adds a `Focus · N hidden` button in the bottom-right corner to inspect hidden cards, temporarily unhide a video for the current tab, or whitelist a channel. Hovering over visible cards also gives a quick button to hide the channel.
+- **Custom rules & backups:** Whitelist or blacklist channels (by `@handle`, URL, or name), add custom allow/block words, test any video title right inside the popup, and export/import your settings as JSON.
 
-## Установка (Режим разработчика)
+## Installation
 
-1. Склонируйте репозиторий или скачайте архив с кодом и распакуйте его в постоянную папку.
-2. Откройте страницу расширений браузера (`brave://extensions` или `chrome://extensions`).
-3. Включите **Режим разработчика** (*Developer mode*) в правом верхнем углу.
-4. Нажмите **Загрузить распакованное расширение** (*Load unpacked*) и выберите папку с файлом `manifest.json`.
-5. Обновите открытые вкладки YouTube.
+1. Download or clone this repository.
+2. Open `brave://extensions` or `chrome://extensions` in your browser.
+3. Enable **Developer mode** in the top-right corner.
+4. Click **Load unpacked** and select the `YouTube-Focus` folder (the one containing `manifest.json`).
+5. Refresh any open YouTube tabs.
 
-## Архитектура и тестирование
+## Project layout
 
-- `manifest.json` — конфигурация Manifest V3 (единственное разрешение — `storage`).
-- `classifier.js` — чистые функции нормализации и классификации видео.
-- `settings.js` — работа с локальным хранилищем `chrome.storage.local`.
-- `content.js` / `content.css` — фильтрация DOM-карточек YouTube, обработка SPA-навигации и встроенный интерфейс.
-- `popup.*` — интерфейс настроек расширения.
-- `tests/` — 151 автотест правил классификации и регрессионных кейсов.
+- `manifest.json` — Manifest V3 config (`storage` permission only, runs on `youtube.com`).
+- `classifier.js` — Title/channel normalization and classification rules.
+- `settings.js` — `chrome.storage.local` wrapper and channel URL/handle normalization.
+- `content.js` / `content.css` — DOM card filtering, SPA navigation handling, player gate, and in-page drawer.
+- `popup.html` / `popup.css` / `popup.js` — Extension popup UI, rule editor, title tester, and JSON backup.
+- `tests/` — 151 unit and regression tests.
 
-Для запуска тестов (требуется Node.js 18+):
+To run the test suite (requires Node.js 18+):
 
 ```bash
-node --test tests/classifier.test.cjs
+node --test YouTube-Focus/tests/classifier.test.cjs
+```
+
+## Privacy
+
+The extension makes zero network requests, collects no telemetry, and stores no watch history. All settings and channel lists stay in `chrome.storage.local` in your browser profile.
